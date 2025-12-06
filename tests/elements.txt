@@ -1,0 +1,5 @@
+ctl00_MainContent_cmbxCultureCode_Input
+ctl00_MainContent_rdpEffectiveDatePicker_dateInput
+ctl00_MainContent_cmbxRegulationList_Input
+txtbxECN
+lnxbtnSearch

@@ -1,0 +1,28 @@
+--- Specific Regulation Search Test Start: MCTest1 ---
+ℹ️ Test Scenario: Regulation "JP - JAPAN - Japan Export Control Order"
+ℹ️ Regulation List [JP - JAPAN - Japan Export Control Order] を選択します...
+  1) [Google Chrome] › tests\TC_011.test.ts:64:9 › Role Based Access Control - Specific Regulation Search › Perform search with specific regulation for MCTest1 › Perform Search with Specific Regulation 
+
+    Error: locator.click: Error: strict mode violation: locator('#ctl00_MainContent_cmbxRegulationList_DropDown').getByText('JP - JAPAN - Japan Export Control Order') resolved to 2 elements:
+        1) <li class="rcbItem">JP - JAPAN - Japan Export Control Order</li> aka getByText('JP - JAPAN - Japan Export Control Order', { exact: true })
+        2) <li class="rcbItem">JP - JAPAN - Japan Export Control Order: Appended…</li> aka getByText('JP - JAPAN - Japan Export Control Order: Appended Table 2-3 (Prohibited Items')
+
+    Call log:
+      - waiting for locator('iframe[name="legacy-outlet"]').contentFrame().locator('#ctl00_MainContent_cmbxRegulationList_DropDown').getByText('JP - JAPAN - Japan Export Control Order')
+
+
+       99 |         await regulationInput.click();
+      100 |         const regulationDropdown = mainFrame.locator('#ctl00_MainContent_cmbxRegulationList_DropDown');
+    > 101 |         await regulationDropdown.getByText(scenario.regulation).click();
+          |                                                                 ^
+      102 |         await expect(regulationInput).toHaveValue(scenario.regulation);
+      103 |         console.log('✅ Regulation Listが選択されました。');
+      104 |
+        at C:\Users\6135983\OneDrive - Thomson Reuters Incorporated\Customer\三菱商事\UnitTestCode\tests\TC_011.test.ts:101:65
+        at C:\Users\6135983\OneDrive - Thomson Reuters Incorporated\Customer\三菱商事\UnitTestCode\tests\TC_011.test.ts:83:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\TC_011-Role-Based-Access-C-d544e-ific-regulation-for-MCTest1-Google-Chrome\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\TC_011-Role-Based-Access-C-d544e-ific-regulation-for-MCTest1-Google-Chrome\error-context.md
