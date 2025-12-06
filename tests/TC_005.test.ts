@@ -1,17 +1,9 @@
 import { test, expect } from '@playwright/test';
+import * as fs from 'fs';
+import * as path from 'path';
 
 // ベースのユーザー定義はそのまま流用
-const users = [
-  { id: 'MCTest1', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest2', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest3', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest4', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest5', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest6', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest7', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest8', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest9', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-];
+const users = JSON.parse(fs.readFileSync(path.join(__dirname, 'account.dat'), 'utf8'));
 
 // elements.txtから読み込んだ要素IDのリスト
 const elementIds = [

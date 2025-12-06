@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
 
-// Read account information from account.dat
+// ベースのユーザー定義はそのまま流用
 const users = JSON.parse(fs.readFileSync(path.join(__dirname, 'account.dat'), 'utf8'));
 
 // シナリオに応じた設定
@@ -158,15 +158,47 @@ test.describe('Role Based Access Control - Specific Regulation Search', () => {
             console.log('ℹ️ 最終描画のため3秒間待機します...');
             await page.waitForTimeout(3000);
             
-            console.log('✅ 検索結果が完全に表示されました。');            // --- スクリーンショットとクリーンアップ ---
-            console.log('ℹ️ 検索結果のスクリーンショットを撮影します。');
-            const screenshotBuffer = await page.screenshot({ fullPage: true });
-            await test.info().attach(`${user.id}-${scenario.regulation}-${i}.png`, {
-              body: screenshotBuffer,
-              contentType: 'image/png',
-            });
+            console.log('✅ 検索結果が完全に表示されました。');
 
-            console.log('ℹ️ "New Search" をクリックしてページをリセットします。');
+            // ---------------------------------------------------
+            // Step 4: 検索結果の展開とタブのスクリーンショット
+            // ---------------------------------------------------
+            console.log('ℹ️ 検索結果の最初のノードを展開します...');
+            const expandButton = mainFrame.locator('[id$="_GECBtnExpandColumn"]').first();
+            await expandButton.click();
+
+            // 展開後のタブが表示されるまで待機
+            const tabStrip = mainFrame.locator('.RadTabStrip');
+            await expect(tabStrip).toBeVisible({ timeout: 15000 });
+            console.log('✅ ノードが展開されました。');
+
+            console.log('ℹ️ 表示されているタブを動的に取得します...');
+            const tabContainer = mainFrame.locator('div.rtsLevel.rtsLevel1');
+            const tabNames = await tabContainer.getByRole('link').evaluateAll(links => 
+                links.map(link => (link.textContent || '').trim()).filter(name => name)
+            );
+            console.log(`✅ 取得したタブ: ${tabNames.join(', ')}`);
+
+            for (const tabName of tabNames) {
+                console.log(`ℹ️ タブ "${tabName}" を選択しています...`);
+                const tabElement = tabStrip.getByRole('link', { name: tabName });
+                await tabElement.click();
+                
+                // 描画を待つために少し待機
+                await page.waitForTimeout(1000); 
+
+                console.log(`📸 タブ "${tabName}" のスクリーンショットを撮影します...`);
+                const screenshotBuffer = await page.screenshot();
+                await test.info().attach(`${user.id}-${scenario.regulation}-${i}-${tabName.replace(/[\s\/]/g, '_')}.png`, {
+                    body: screenshotBuffer,
+                    contentType: 'image/png',
+                });
+            }
+
+            // ---------------------------------------------------
+            // Step 5: クリーンアップ
+            // ---------------------------------------------------
+            console.log('ℹ️ "New Search" をクリックして次回のループのためにページをリセットします。');
             await mainFrame.locator('#ctl00_MainContent_hyxlnkNewSearch').click();
 
             // ページがリセットされたことを確認

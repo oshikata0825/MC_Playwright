@@ -1,16 +1,9 @@
 import { test, expect } from '@playwright/test';
+import * as fs from 'fs';
+import * as path from 'path';
 
-const users = [
-  { id: 'MCTest1', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest2', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest3', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest4', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest5', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest6', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest7', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest8', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest9', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-];
+// Read account information from account.dat
+const users = JSON.parse(fs.readFileSync(path.join(__dirname, 'account.dat'), 'utf8'));
 
 test.describe('Role Based Access Control - Search Button Visibility', () => {
   

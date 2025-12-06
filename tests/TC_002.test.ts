@@ -1,17 +1,9 @@
 import { test, expect } from '@playwright/test';
+import * as fs from 'fs';
+import * as path from 'path';
 
-// TC_001.test.tsをベースに、ユーザー定義と基本的な構造を流用
-const users = [
-  { id: 'MCTest1', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest2', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest3', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest4', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest5', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest6', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest7', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest8', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-  { id: 'MCTest9', pass: 'Welcome101@', company: 'Mitsubishi Corporation'},
-];
+// Read account information from account.dat
+const users = JSON.parse(fs.readFileSync(path.join(__dirname, 'account.dat'), 'utf8'));
 
 // テスト用のECCNリスト
 const eccnList = ['5A002', '3E001', '9A001', '9E003', '0A979', 'EAR99'];
