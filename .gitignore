@@ -11,3 +11,5 @@ node_modules/
 
 # Temporary files
 /tests/elements.txt
+
+debug_iframe_content.html
