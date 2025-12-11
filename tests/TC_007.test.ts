@@ -1,9 +1,8 @@
 import { test, expect } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as fs from 'fs';
 
-// ベースのユーザー定義はそのまま流用
+// Load user definitions
 const users = JSON.parse(fs.readFileSync(path.join(__dirname, 'account.dat'), 'utf8'));
 
 // 検索用のキーワードリスト
