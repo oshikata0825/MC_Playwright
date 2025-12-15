@@ -31,6 +31,12 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
+    
+    // Force usage of installed Chrome to avoid antivirus issues with bundled Chromium
+    channel: 'chrome',
+    launchOptions: {
+      executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+    },
   },
 
   /* Configure projects for major browsers */
