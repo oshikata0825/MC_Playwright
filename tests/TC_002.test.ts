@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+﻿import { test, expect } from '@playwright/test';
+import { BASE_URL } from './config';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -20,7 +21,7 @@ test.describe('Role Based Access Control - Search Functionality', () => {
       // Step 1: ログイン処理
       // ---------------------------------------------------
       await test.step('Login', async () => {
-        await page.goto('https://ogt-gtm-web-eu-imp.7166.aws.thomsonreuters.com/Logon.aspx?ReturnUrl=%2fgtm%2fhome');
+        await page.goto(BASE_URL + '/Logon.aspx?ReturnUrl=%2fgtm%2fhome');
         await page.getByRole('textbox', { name: 'Company' }).click();
         await page.getByRole('textbox', { name: 'Company' }).fill(user.company);
         await page.getByRole('textbox', { name: 'Company' }).press('Tab');
@@ -37,7 +38,7 @@ test.describe('Role Based Access Control - Search Functionality', () => {
       await test.step('Navigate to Main Content', async () => {
         await page.getByRole('button', { name: 'Content' }).click();
         await page.getByRole('menuitem', { name: 'ECN/Dual Use List (Quick' }).click();
-        await page.goto('https://ogt-gtm-web-eu-imp.7166.aws.thomsonreuters.com/gtm/aspx?href=%2FContent%2FfugECCNDetail.aspx');
+        await page.goto(BASE_URL + '/gtm/aspx?href=%2FContent%2FfugECCNDetail.aspx');
       });
 
       // ---------------------------------------------------

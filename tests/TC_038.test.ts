@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+﻿import { test, expect } from '@playwright/test';
+import { BASE_URL } from './config';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -17,7 +18,7 @@ test.describe('TC_038 Role Based Access Control - Rulings Page Access', () => {
 
       // Step 1: Login
       await test.step('Login', async () => {
-        await page.goto('https://ogt-gtm-web-eu-imp.7166.aws.thomsonreuters.com/Logon.aspx?ReturnUrl=%2fgtm%2fhome');
+        await page.goto(BASE_URL + '/Logon.aspx?ReturnUrl=%2fgtm%2fhome');
         await page.getByRole('textbox', { name: 'Company' }).fill(user.company);
         await page.getByRole('textbox', { name: 'Username' }).fill(user.id);
         await page.getByRole('textbox', { name: 'Password' }).fill(user.pass);
@@ -141,3 +142,4 @@ test.describe('TC_038 Role Based Access Control - Rulings Page Access', () => {
     });
   });
 });
+

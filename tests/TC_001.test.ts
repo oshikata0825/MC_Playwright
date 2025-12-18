@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+﻿import { test, expect } from '@playwright/test';
+import { BASE_URL } from './config';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -19,7 +20,7 @@ test.describe('Role Based Access Control - Search Button Visibility', () => {
       // ---------------------------------------------------
       await test.step('Login', async () => {
         // 正しいログインURLに変更
-        await page.goto('https://ogt-gtm-web-eu-imp.7166.aws.thomsonreuters.com/Logon.aspx?ReturnUrl=%2fgtm%2fhome');
+        await page.goto(BASE_URL + '/Logon.aspx?ReturnUrl=%2fgtm%2fhome');
         
         // クリックやタブ移動を含む詳細な操作に修正
         await page.getByRole('textbox', { name: 'Company' }).click();
@@ -40,7 +41,7 @@ test.describe('Role Based Access Control - Search Button Visibility', () => {
         await page.getByRole('button', { name: 'Content' }).click();
         await page.getByRole('menuitem', { name: 'ECN/Dual Use List (Quick' }).click();
         // 最終的に目的のページへ
-        await page.goto('https://ogt-gtm-web-eu-imp.7166.aws.thomsonreuters.com/gtm/aspx?href=%2FContent%2FfugECCNDetail.aspx');
+        await page.goto(BASE_URL + '/gtm/aspx?href=%2FContent%2FfugECCNDetail.aspx');
       });
 
       // ---------------------------------------------------
@@ -98,3 +99,4 @@ test.describe('Role Based Access Control - Search Button Visibility', () => {
     });
   }
 });
+

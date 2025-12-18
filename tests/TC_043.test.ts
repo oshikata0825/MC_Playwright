@@ -1,4 +1,4 @@
-﻿import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { BASE_URL } from './config';
 import * as fs from 'fs';
 import * as path from 'path';

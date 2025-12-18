@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+﻿import { test, expect } from '@playwright/test';
+import { BASE_URL } from './config';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -53,7 +54,7 @@ test.describe('TC_031 Role Based Access Control - Global Tariffs (Classic) Keywo
 
       await test.step('Login', async () => {
 
-        await page.goto('https://ogt-gtm-web-eu-imp.7166.aws.thomsonreuters.com/Logon.aspx?ReturnUrl=%2fgtm%2fhome');
+        await page.goto(BASE_URL + '/Logon.aspx?ReturnUrl=%2fgtm%2fhome');
 
         await page.getByRole('textbox', { name: 'Company' }).fill(user.company);
 
@@ -274,3 +275,4 @@ test.describe('TC_031 Role Based Access Control - Global Tariffs (Classic) Keywo
   });
 
 });
+
