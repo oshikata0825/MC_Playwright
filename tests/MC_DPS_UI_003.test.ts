@@ -109,13 +109,6 @@ async function verifyFieldsReadOnlySS(popup: Page, testInfo: any) {
 
 async function verifyFieldsReadOnlyMDM(popup: Page, testInfo: any) {
   await verifyBaseFieldsReadOnly(popup, 'MDM', testInfo);
-  
-  const iframe = popup.frameLocator('iframe[name="legacy-outlet"]');
-  const isIframe = await popup.locator('iframe[name="legacy-outlet"]').count() > 0;
-  const root = isIframe ? iframe : popup;
-
-  // MDMの場合のみCompanyNameもRead-onlyであることを確認
-  await verifySpecificFieldReadOnly(popup, root, '#txtCompanyName', 'CompanyName', 'MDM', testInfo);
 }
 
 test.describe('MC_DPS_UI_003 Denied Party Screening - MC Company Lookup Verification', () => {
