@@ -246,7 +246,20 @@ test.describe('MC_DPS_UI_004 Denied Party Screening - Create New Company UI Veri
                 contentType: 'image/png'
             });
 
-            // Additionally check if CompanyName is Editable as previously requested
+            // 5. Verify CompanyWide = No
+            const companyWideContainer = maintenanceFrame.locator('#s2id_ctl00_MainContent_tabs_tabCompanyInfo_pnlAudit_drpCompanyWide');
+            const companyWideChosen = companyWideContainer.locator('.select2-chosen');
+            await companyWideContainer.scrollIntoViewIfNeeded();
+            await page.waitForTimeout(500);
+            const actualCompanyWide = (await companyWideChosen.innerText()).trim();
+            console.log(`Verifying CompanyWide: expected "No", actual "${actualCompanyWide}"`);
+            expect(actualCompanyWide).toBe('No');
+            await testInfo.attach('step11_5_CompanyWide.png', {
+                body: await companyWideContainer.screenshot(),
+                contentType: 'image/png'
+            });
+
+            // 6. Additionally check if CompanyName is Editable as previously requested
             await companyNameInput.scrollIntoViewIfNeeded();
             await page.waitForTimeout(500);
             const isReadOnly = await companyNameInput.getAttribute('readonly');
@@ -257,7 +270,7 @@ test.describe('MC_DPS_UI_004 Denied Party Screening - Create New Company UI Veri
             if (isReadOnly === 'readonly' || isDisabled === 'disabled' || isRiDisabled) {
                 throw new Error('FAILED: CompanyName field is expected to be EDITABLE, but it is READ-ONLY or DISABLED.');
             }
-            await testInfo.attach('step11_5_CompanyName_Editable_Check.png', {
+            await testInfo.attach('step11_6_CompanyName_Editable_Check.png', {
                 body: await companyNameInput.screenshot(),
                 contentType: 'image/png'
             });
