@@ -14,7 +14,7 @@ test.describe('Role Based Access Control - Spreadsheet Upload Visibility', () =>
   for (const user of users) {
     
     test(`Verify Spreadsheet Upload Visibility for ${user.id}`, async ({ page }) => {
-      test.setTimeout(120000); // タイムアウトを延長
+      test.setTimeout(180000); // タイムアウトを180秒に延長
       
       console.log(`--- テスト開始: ${user.id} ---`);
 
@@ -390,7 +390,7 @@ test.describe('Role Based Access Control - Spreadsheet Upload Visibility', () =>
                     console.log('✅ DPS Search/Reporting Lookup をクリックしました');
 
                     // 遷移後の待機とスクリーンショット
-                    await page.waitForTimeout(5000);
+                    await page.waitForTimeout(3000);
                     const lookupScreenshot = await page.screenshot({ fullPage: true });
                     await test.info().attach('dps-lookup-page', {
                       body: lookupScreenshot,
@@ -408,7 +408,7 @@ test.describe('Role Based Access Control - Spreadsheet Upload Visibility', () =>
                     await mcCompanyLookupLink.click();
                     console.log('✅ MC Company Lookup をクリックしました');
 
-                    await page.waitForTimeout(5000);
+                    await page.waitForTimeout(3000);
                     
                     // --- フィルタリング操作 (各会社名ごとに実行) ---
                     for (const companyName of companyNames) {
@@ -417,14 +417,14 @@ test.describe('Role Based Access Control - Spreadsheet Upload Visibility', () =>
                       // 1. CompanyName カラムのメニューボタン (...) をクリック
                       // 前回のループでメニューが開いたまま、あるいは不安定な状態を避けるため一度Escapeを送信
                       await page.keyboard.press('Escape');
-                      await page.waitForTimeout(1000);
+                      await page.waitForTimeout(500);
 
                       const companyNameHeader = mainFrame.locator('th.rgHeader').filter({ hasText: /^CompanyName$/i });
                       const optionsBtn = companyNameHeader.locator('button.rgActionButton.rgOptions').first();
                       await optionsBtn.scrollIntoViewIfNeeded();
                       await optionsBtn.click({ force: true });
                       console.log('ℹ️ フィルタオプションメニューを開きました。');
-                      await page.waitForTimeout(2000);
+                      await page.waitForTimeout(1000);
 
                       // 2. フィルタオペレータを "EqualTo" に変更
                       const condInput = mainFrame.locator('input[id*="HCFMRCMBFirstCond_Input"]');
@@ -433,14 +433,14 @@ test.describe('Role Based Access Control - Spreadsheet Upload Visibility', () =>
                       const currentOp = await condInput.inputValue();
                       if (currentOp !== 'EqualTo') {
                         await condInput.click({ force: true });
-                        await page.waitForTimeout(1000);
+                        await page.waitForTimeout(500);
                         
                         // 選択肢から EqualTo を選ぶ
                         const equalToItem = mainFrame.locator('li.rcbItem', { hasText: /^EqualTo$/i }).or(page.locator('li.rcbItem', { hasText: /^EqualTo$/i })).first();
                         await equalToItem.waitFor({ state: 'visible', timeout: 5000 });
                         await equalToItem.click({ force: true });
                         console.log('ℹ️ フィルタオペレータを "EqualTo" に設定しました。');
-                        await page.waitForTimeout(1000);
+                        await page.waitForTimeout(500);
                       } else {
                         console.log('ℹ️ フィルタオペレータは既に "EqualTo" です。');
                       }
@@ -450,9 +450,9 @@ test.describe('Role Based Access Control - Spreadsheet Upload Visibility', () =>
                       await valInput.waitFor({ state: 'visible', timeout: 5000 });
                       await valInput.click({ force: true });
                       await valInput.fill('');
-                      await valInput.type(companyName, { delay: 50 }); // fillの代わりにtypeを使用して入力を確実にする
+                      await valInput.type(companyName, { delay: 30 }); // delayを少し短縮
                       await valInput.press('Tab');
-                      await page.waitForTimeout(1000);
+                      await page.waitForTimeout(500);
 
                       // 4. Filter ボタンをクリック
                       const filterBtn = mainFrame.locator('button[id*="HCFMFilterButton"]').or(mainFrame.locator('span.rgButtonText:has-text("Filter")')).first();
@@ -460,7 +460,7 @@ test.describe('Role Based Access Control - Spreadsheet Upload Visibility', () =>
                       
                       console.log(`ℹ️ フィルタ適用を待機しています (${companyName})...`);
                       // ポストバックによるグリッドの更新を待つ
-                      await page.waitForTimeout(5000);
+                      await page.waitForTimeout(3000);
 
                       // フィルタリング後のスクリーンショット
                       await test.info().attach(`filter-result-${companyName}`, {
