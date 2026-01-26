@@ -314,21 +314,26 @@ test.describe('MC_DPS_Upload_008 - SanFlag Automatic Setting Verification', () =
             };
 
             const expectedSanLabel = data.isSan ? 'Yes/はい' : 'No/いいえ';
-            if (isSanMatch(actualSanFlag, data.isSan)) {
-              console.log(`   ✅ [CompanyID: ${data.companyId}] SanFlag Match: Expected=${expectedSanLabel}, Actual="${actualSanFlag}"`);
-            } else {
+            const sanMatch = isSanMatch(actualSanFlag, data.isSan);
+            console.log(`   [SanFlag] Match: ${sanMatch ? '✅' : '❌'}`);
+            console.log(`     - Expected: "${expectedSanLabel}"`);
+            console.log(`     - Actual:   "${actualSanFlag}"`);
+
+            if (!sanMatch) {
               const msg = `❌ [CompanyID: ${data.companyId}] SanFlag MISMATCH: Expected=${expectedSanLabel}, Actual="${actualSanFlag}"`;
-              console.log(msg);
               verificationErrors.push(msg);
             }
 
             // Verify CompanyName
-            const expectedCompanyName = data.isSan ? data.companyName.replace(/^San_/, '') : data.companyName;
-            if (actualCompanyName === expectedCompanyName) {
-              console.log(`   ✅ [CompanyID: ${data.companyId}] CompanyName Match: Expected="${expectedCompanyName}", Actual="${actualCompanyName}"`);
-            } else {
+            // New Specification: CompanyName should RETAIN the "San_" prefix in the UI.
+            const expectedCompanyName = data.companyName;
+            const nameMatch = (actualCompanyName === expectedCompanyName);
+            console.log(`   [CompanyName] Match: ${nameMatch ? '✅' : '❌'}`);
+            console.log(`     - Expected: "${expectedCompanyName}"`);
+            console.log(`     - Actual:   "${actualCompanyName}"`);
+
+            if (!nameMatch) {
               const msg = `❌ [CompanyID: ${data.companyId}] CompanyName MISMATCH: Expected="${expectedCompanyName}", Actual="${actualCompanyName}"`;
-              console.log(msg);
               verificationErrors.push(msg);
             }
 
